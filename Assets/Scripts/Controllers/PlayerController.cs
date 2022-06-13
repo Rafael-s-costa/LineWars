@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private LineCharacterController _characterController;
+
     // Start is called before the first frame update
     void Start()
     {
+        _characterController = GetComponent<LineCharacterController>();
         GetComponent<Team>().id = 1;
     }
 
@@ -18,19 +21,22 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(1))
         {
-            if (hit.collider.tag == "Character" && hit.collider.gameObject.GetComponent<Team>().id != GetComponent<Team>().id)
-            {
-                //Target = collider
-                // return
-            }
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            //target = null
-            //Move
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "Character" && hit.collider.gameObject.GetComponent<Team>().id != GetComponent<Team>().id)
+                {
+                    _characterController.setEnemyTarget(hit.collider);
+                    return;
+                }
+
+                _characterController.setEnemyTarget(null);
+                _characterController.Move(hit.point);
+            }
         }
     }
 }
