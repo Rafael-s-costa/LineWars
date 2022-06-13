@@ -78,4 +78,49 @@ public class LineCharacterController : MonoBehaviour
     {
         _characterData.enemyTarget = target;
     }
+
+    /**
+     * Gets a list of all enemies in the range of the creep.
+     */
+    public List<GameObject> GetEnemiesInRange()
+    {
+        Team[] teamObjects = FindObjectsOfType<Team>();
+        List<GameObject> objectsInRange = new List<GameObject>();
+        int creepTeam = GetComponent<Team>().id;
+
+        foreach (Team teamObject in teamObjects)
+        {
+            GameObject objectFound = teamObject.gameObject;
+            if (teamObject.id != creepTeam && IsInRange(objectFound.transform.position, _characterData.aggroRadius))
+            {
+                objectsInRange.Add(objectFound);
+            }
+        }
+
+        return objectsInRange;
+    }
+
+    /**
+     * Gets the closest enemy object to the creep, out of a list
+     * of possible objects.
+     */
+    public GameObject GetClosestEnemy(List<GameObject> enemies)
+    {
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+
+        foreach (GameObject enemy in enemies)
+        {
+            Vector3 diff = enemy.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = enemy;
+                distance = curDistance;
+            }
+        }
+
+        return closest;
+    }
 }

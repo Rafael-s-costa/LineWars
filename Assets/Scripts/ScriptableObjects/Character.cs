@@ -27,4 +27,5 @@ public abstract class Character : ScriptableObject
     public Collider enemyTarget { get; set; }
 
     public float attackRange;
+    public float aggroRadius;
 }
