@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameState : MonoBehaviour
+public class GameStateManager : MonoBehaviour
 {
     private List<Team> teams;
 
@@ -25,5 +25,10 @@ public class GameState : MonoBehaviour
     private void InitTeams()
     {
 
+    }
+
+    private void DealDamage(Character attacking, Character defending)
+    {
+        
     }
 }

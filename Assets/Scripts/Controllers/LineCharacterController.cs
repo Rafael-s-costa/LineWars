@@ -6,16 +6,16 @@ using UnityEngine.AI;
 public class LineCharacterController : MonoBehaviour
 {
     private NavMeshAgent _agent;
-    private Character _characterData;
+    private GameStateManager _gameState;
 
-    public LineCharacterController(Character character)
-    {
-        _characterData = character;
-    }
+    [SerializeField]
+    private Character _characterData;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameState = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateManager>();
+
         _agent = GetComponent<NavMeshAgent>();
     }
 
@@ -53,7 +53,7 @@ public class LineCharacterController : MonoBehaviour
         {
             _agent.isStopped = true;
             _characterData.attackInterval = _characterData.attackSpeed;
-            //DealDamage();
+            _gameState.DealDamage();
             //Deal damage
             //Play animation
 
