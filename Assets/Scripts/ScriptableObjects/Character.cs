@@ -15,10 +15,13 @@ public abstract class Character : ScriptableObject
     public int maxMp;
     public int mp;
 
-    public int damage;
+    public int armor { get; set; }
+
+    public int damage { get; set; }
+    public int armorPen { get; set; }
 
     public float critChange;
-    public float critDamage;
+    public int critDamage;
 
     public int moveSpeed;
     public int attackSpeed { get; set; }
@@ -28,4 +31,8 @@ public abstract class Character : ScriptableObject
 
     public float attackRange;
     public float aggroRadius;
+
+    public int _gold { get; set; }
+    public int _passiveIncome { get; set; }
+    public int _bounty { get; set; }
 }
