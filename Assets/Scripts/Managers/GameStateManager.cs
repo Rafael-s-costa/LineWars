@@ -27,8 +27,8 @@ public class GameStateManager : MonoBehaviour
 
     }
 
-    private void DealDamage(Character attacking, Character defending)
+    public void DealDamage(Character attacking)
     {
-        
+        Character defending = attacking.enemyTarget.gameObject.GetComponent<Character>();
     }
 }

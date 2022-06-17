@@ -16,7 +16,7 @@ public class LineCharacterController : MonoBehaviour
     {
         _gameState = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameStateManager>();
 
-        _agent = GetComponent<NavMeshAgent>();
+        LoadCharacterData();
     }
 
     // Update is called once per frame
@@ -53,16 +53,10 @@ public class LineCharacterController : MonoBehaviour
         {
             _agent.isStopped = true;
             _characterData.attackInterval = _characterData.attackSpeed;
-            _gameState.DealDamage();
-            //Deal damage
+            _gameState.DealDamage(_characterData);
             //Play animation
 
             _agent.isStopped = false;
-            Debug.Log("Attacked");
-        }
-        else
-        {
-            Debug.Log("Not yet");
         }
     }
 
@@ -122,5 +116,38 @@ public class LineCharacterController : MonoBehaviour
         }
 
         return closest;
+    }
+
+    private void LoadCharacterData()
+    {
+        if(_characterData == null)
+        {
+            return;
+        }
+
+        // Destroy child objects, like visuals
+        foreach(Transform child in transform)
+        {
+            if (Application.isEditor)
+            {
+                DestroyImmediate(child.gameObject);
+            } else
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // Get Visuals from Data
+        GameObject visuals = Instantiate(_characterData.model);
+        visuals.transform.SetParent(transform);
+        visuals.transform.localPosition = Vector3.zero;
+        visuals.transform.rotation = Quaternion.identity;
+
+        if(_agent == null)
+        {
+            _agent = GetComponent<NavMeshAgent>();
+        }
+
+        _agent.speed = _characterData.moveSpeed;
     }
 }
